@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minhas Equipes · PokéStrategy</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/nav :: nav}"></header>
+
+    <main class="container">
+        <div class="cabecalho-pagina">
+            <h1>Minhas Equipes</h1>
+            <a href="/equipes/novo" class="botao botao-primario">+ Nova Equipe</a>
+        </div>
+
+        <p class="alerta alerta-sucesso" th:if="${sucesso}" th:text="${sucesso}"></p>
+
+        <p class="vazio" th:if="${#lists.isEmpty(equipes)}">
+            Você ainda não tem nenhuma equipe. Crie a primeira para começar a capturar Pokémon!
+        </p>
+
+        <div class="grade-equipes">
+            <div class="cartao-equipe" th:each="equipe : ${equipes}">
+                <h2 th:text="${equipe.nome}">Nome da equipe</h2>
+                <p class="contagem" th:text="${equipe.pokemons.size()} + '/6 Pokémon'">0/6 Pokémon</p>
+
+                <div class="mini-sprites">
+                    <img th:each="p : ${equipe.pokemons}" th:src="${p.spriteUrl}" th:alt="${p.nome}">
+                    <span class="vazio-mini" th:if="${#lists.isEmpty(equipe.pokemons)}">Nenhum Pokémon ainda</span>
+                </div>
+
+                <div class="acoes-cartao">
+                    <a th:href="@{/equipes/{id}(id=${equipe.id})}" class="botao botao-primario">Abrir</a>
+                    <a th:href="@{/equipes/{id}/editar(id=${equipe.id})}" class="botao botao-secundario">Editar</a>
+                    <form th:action="@{/equipes/{id}/excluir(id=${equipe.id})}" method="post"
+                          onsubmit="return confirm('Excluir esta equipe e todos os Pokémon dela?');">
+                        <button type="submit" class="botao botao-perigo">Excluir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

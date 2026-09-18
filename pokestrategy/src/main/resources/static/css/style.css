@@ -1,0 +1,516 @@
+:root {
+    --cor-fundo: #f4f5f9;
+    --cor-cartao: #ffffff;
+    --cor-texto: #23262f;
+    --cor-texto-suave: #6b7280;
+    --cor-borda: #e3e5ec;
+    --cor-primaria: #ef5350;
+    --cor-primaria-escura: #d32f2f;
+    --cor-sucesso: #2e7d32;
+    --cor-sucesso-fundo: #e8f5e9;
+    --cor-erro: #c62828;
+    --cor-erro-fundo: #fdecea;
+    --raio: 12px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--cor-fundo);
+    color: var(--cor-texto);
+}
+
+a {
+    color: inherit;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+}
+
+.container-estreito {
+    max-width: 520px;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: var(--cor-cartao);
+    border-bottom: 1px solid var(--cor-borda);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.navbar-marca {
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: var(--cor-primaria-escura);
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--cor-texto-suave);
+}
+
+.navbar-links a:hover {
+    color: var(--cor-primaria-escura);
+}
+
+/* Cabeçalhos e textos utilitários */
+.cabecalho-pagina {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.cabecalho-pagina h1 {
+    margin: 0;
+}
+
+.link-voltar {
+    display: inline-block;
+    margin-bottom: 12px;
+    text-decoration: none;
+    color: var(--cor-texto-suave);
+    font-weight: 600;
+}
+
+.subtitulo {
+    color: var(--cor-texto-suave);
+    margin: 0 0 16px;
+    line-height: 1.5;
+}
+
+.vazio, .aviso {
+    color: var(--cor-texto-suave);
+    background: var(--cor-cartao);
+    border: 1px dashed var(--cor-borda);
+    padding: 20px;
+    border-radius: var(--raio);
+    text-align: center;
+}
+
+.contagem, .contagem-grande {
+    color: var(--cor-texto-suave);
+    font-weight: 600;
+}
+
+.contagem-grande {
+    font-size: 1.1rem;
+}
+
+/* Alertas */
+.alerta {
+    padding: 12px 16px;
+    border-radius: var(--raio);
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.alerta-sucesso {
+    background: var(--cor-sucesso-fundo);
+    color: var(--cor-sucesso);
+}
+
+.alerta-erro {
+    background: var(--cor-erro-fundo);
+    color: var(--cor-erro);
+}
+
+.erro-campo {
+    color: var(--cor-erro);
+    font-size: 0.85rem;
+    margin: -8px 0 12px;
+}
+
+/* Botões */
+.botao {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.botao-pequeno {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.botao-primaria, .botao-primario {
+    background: var(--cor-primaria);
+    color: #fff;
+}
+
+.botao-primaria:hover, .botao-primario:hover {
+    background: var(--cor-primaria-escura);
+}
+
+.botao-secundario {
+    background: #eceef3;
+    color: var(--cor-texto);
+}
+
+.botao-secundario:hover {
+    background: #dfe2ea;
+}
+
+.botao-perigo {
+    background: transparent;
+    color: var(--cor-erro);
+    border: 1px solid var(--cor-erro);
+}
+
+.botao-perigo:hover {
+    background: var(--cor-erro-fundo);
+}
+
+/* Cartões: equipes */
+.grade-equipes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.cartao-equipe, .cartao-pokemon {
+    background: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    padding: 18px;
+}
+
+.cartao-equipe h2 {
+    margin: 0 0 4px;
+}
+
+.mini-sprites {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0;
+    min-height: 40px;
+}
+
+.mini-sprites img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    background: var(--cor-fundo);
+    border-radius: 50%;
+}
+
+.vazio-mini {
+    color: var(--cor-texto-suave);
+    font-size: 0.85rem;
+}
+
+.acoes-cartao {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.acoes-cartao form {
+    margin: 0;
+}
+
+/* Cartões: pokémon na equipe */
+.grade-pokemons {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+@media (max-width: 700px) {
+    .grade-pokemons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 420px) {
+    .grade-pokemons {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cartao-pokemon {
+    text-align: center;
+}
+
+.cartao-pokemon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.cartao-pokemon h3 {
+    margin: 4px 0 8px;
+    text-transform: capitalize;
+}
+
+/* Ameaças à equipe */
+.secao-ameacas {
+    margin: 8px 0 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cor-borda);
+}
+
+.secao-ameacas h2 {
+    margin: 0 0 6px;
+}
+
+.grade-ameacas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.cartao-ameaca {
+    background: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    padding: 16px 20px;
+    text-align: center;
+    min-width: 140px;
+}
+
+.cartao-ameaca p {
+    margin: 10px 0 0;
+    color: var(--cor-texto-suave);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.badge-tipo-grande {
+    font-size: 0.95rem;
+    padding: 6px 18px;
+}
+
+/* Formulários */
+.form-card {
+    background: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    padding: 24px;
+}
+
+.form-card label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-card input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.acoes-form {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.form-busca {
+    display: flex;
+    gap: 10px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+}
+
+.form-busca input[type="text"] {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.secao-busca h2, .secao-membros h2 {
+    margin-bottom: 4px;
+}
+
+/* Resultado de pesquisa / verificador */
+.resultado-pesquisa {
+    background: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    padding: 20px;
+    margin-top: 16px;
+}
+
+.cartao-resultado {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cartao-resultado img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    background: var(--cor-fundo);
+    border-radius: 50%;
+    align-self: flex-start;
+}
+
+.info-resultado {
+    flex: 1;
+    min-width: 220px;
+}
+
+.info-resultado h3 {
+    margin: 0 0 8px;
+    text-transform: capitalize;
+}
+
+.cartao-resultado-simples {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.cartao-resultado-simples img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
+.cartao-resultado-simples p {
+    font-weight: 700;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+.bloco-multiplicadores {
+    margin-top: 14px;
+}
+
+.bloco-multiplicadores h4 {
+    margin: 0 0 6px;
+    font-size: 0.9rem;
+    color: var(--cor-texto-suave);
+}
+
+.lista-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.chip-fraqueza {
+    background: var(--cor-erro-fundo);
+    color: var(--cor-erro);
+}
+
+.chip-resistencia {
+    background: var(--cor-sucesso-fundo);
+    color: var(--cor-sucesso);
+}
+
+.chip-imunidade {
+    background: #ede7f6;
+    color: #5e35b1;
+}
+
+.form-adicionar {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.form-adicionar select {
+    padding: 10px 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* Badges de tipo de Pokémon */
+.badges-tipo {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.badge-tipo {
+    padding: 3px 12px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: #6b7280;
+}
+
+.tipo-normal { background: #a8a878; }
+.tipo-fire { background: #f08030; }
+.tipo-water { background: #6890f0; }
+.tipo-electric { background: #f8d030; color: #23262f; }
+.tipo-grass { background: #78c850; }
+.tipo-ice { background: #98d8d8; color: #23262f; }
+.tipo-fighting { background: #c03028; }
+.tipo-poison { background: #a040a0; }
+.tipo-ground { background: #e0c068; color: #23262f; }
+.tipo-flying { background: #a890f0; }
+.tipo-psychic { background: #f85888; }
+.tipo-bug { background: #a8b820; }
+.tipo-rock { background: #b8a038; }
+.tipo-ghost { background: #705898; }
+.tipo-dragon { background: #7038f8; }
+.tipo-dark { background: #705848; }
+.tipo-steel { background: #b8b8d0; color: #23262f; }
+.tipo-fairy { background: #ee99ac; color: #23262f; }
+
+.pagina-erro {
+    text-align: center;
+    padding-top: 60px;
+}

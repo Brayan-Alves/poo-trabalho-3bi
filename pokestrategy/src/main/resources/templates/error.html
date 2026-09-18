@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Erro · PokéStrategy</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/nav :: nav}"></header>
+
+    <main class="container container-estreito pagina-erro">
+        <h1 th:text="'Erro ' + ${status}">Erro</h1>
+        <p th:text="${message}">Ocorreu um erro.</p>
+        <a href="/equipes" class="botao botao-primario">Voltar para o início</a>
+    </main>
+</body>
+</html>

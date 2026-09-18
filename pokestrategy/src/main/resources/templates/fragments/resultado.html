@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="info(resultado)" class="cartao-resultado">
+        <img th:if="${resultado.spriteUrl}" th:src="${resultado.spriteUrl}" th:alt="${resultado.nome}">
+
+        <div class="info-resultado">
+            <h3 th:text="${#strings.capitalize(resultado.nome)} + ' (#' + ${resultado.pokedexId} + ')'">Nome (#000)</h3>
+
+            <div class="badges-tipo">
+                <span class="badge-tipo" th:each="tipo : ${resultado.tipos}"
+                      th:classappend="'tipo-' + ${tipo}" th:text="${tipo}">tipo</span>
+            </div>
+
+            <div class="bloco-multiplicadores" th:if="${not #lists.isEmpty(resultado.fraquezas)}">
+                <h4>Fraquezas — recebe dano ampliado</h4>
+                <div class="lista-chips">
+                    <span class="chip chip-fraqueza" th:each="f : ${resultado.fraquezas}"
+                          th:text="${f.tipo} + ' ×' + ${f.multiplicador}">tipo ×2</span>
+                </div>
+            </div>
+
+            <div class="bloco-multiplicadores" th:if="${not #lists.isEmpty(resultado.resistencias)}">
+                <h4>Resistências — recebe dano reduzido</h4>
+                <div class="lista-chips">
+                    <span class="chip chip-resistencia" th:each="r : ${resultado.resistencias}"
+                          th:text="${r.tipo} + ' ×' + ${r.multiplicador}">tipo ×0.5</span>
+                </div>
+            </div>
+
+            <div class="bloco-multiplicadores" th:if="${not #lists.isEmpty(resultado.imunidades)}">
+                <h4>Imunidades — não recebe dano</h4>
+                <div class="lista-chips">
+                    <span class="chip chip-imunidade" th:each="i : ${resultado.imunidades}" th:text="${i}">tipo</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

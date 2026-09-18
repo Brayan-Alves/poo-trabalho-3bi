@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verificador de Fraquezas · PokéStrategy</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/nav :: nav}"></header>
+
+    <main class="container">
+        <h1>Verificador de Fraquezas de Tipos</h1>
+        <p class="subtitulo">Pesquise qualquer Pokémon e veja contra quais tipos ele é fraco, resistente ou imune.</p>
+
+        <form th:action="@{/verificador}" method="get" class="form-busca">
+            <input type="text" name="busca" th:value="${termoBusca}" placeholder="Nome ou número (ex: charizard, 6)" required>
+            <button type="submit" class="botao botao-primario">Pesquisar</button>
+        </form>
+
+        <p class="alerta alerta-erro" th:if="${erroBusca}" th:text="${erroBusca}"></p>
+
+        <div th:if="${resultado}" class="resultado-pesquisa">
+            <div th:replace="~{fragments/resultado :: info(${resultado})}"></div>
+
+            <form th:if="${not #lists.isEmpty(equipes)}" th:action="@{/pokemons}" method="post" class="form-adicionar">
+                <input type="hidden" name="pokedexId" th:value="${resultado.pokedexId}">
+                <select name="equipeId" required>
+                    <option value="" disabled selected>Escolha uma equipe</option>
+                    <option th:each="e : ${equipes}" th:value="${e.id}" th:text="${e.nome}"></option>
+                </select>
+                <button type="submit" class="botao botao-primario">Adicionar à equipe</button>
+            </form>
+            <p class="aviso" th:if="${#lists.isEmpty(equipes)}">
+                <a href="/equipes/novo">Crie uma equipe primeiro</a> para poder adicionar este Pokémon a ela.
+            </p>
+        </div>
+    </main>
+</body>
+</html>

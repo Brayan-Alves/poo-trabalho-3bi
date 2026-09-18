@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar apelido · PokéStrategy</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/nav :: nav}"></header>
+
+    <main class="container container-estreito">
+        <h1>Editar apelido</h1>
+
+        <div class="cartao-resultado-simples">
+            <img th:if="${pokemon.spriteUrl}" th:src="${pokemon.spriteUrl}" th:alt="${pokemon.nome}">
+            <p th:text="${#strings.capitalize(pokemon.nome)}">Nome</p>
+        </div>
+
+        <form th:action="@{/pokemons/{id}/editar(id=${pokemon.id})}" method="post" class="form-card">
+            <label for="apelido">Apelido (opcional)</label>
+            <input type="text" id="apelido" name="apelido" th:value="${pokemon.apelido}" placeholder="Ex: Meu Charizard">
+
+            <div class="acoes-form">
+                <a th:href="@{/equipes/{id}(id=${pokemon.equipe.id})}" class="botao botao-secundario">Cancelar</a>
+                <button type="submit" class="botao botao-primario">Salvar</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

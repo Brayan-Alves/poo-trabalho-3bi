@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${equipe.id} != null ? 'Editar Equipe · PokéStrategy' : 'Nova Equipe · PokéStrategy'">Equipe</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/nav :: nav}"></header>
+
+    <main class="container container-estreito">
+        <h1 th:text="${equipe.id} != null ? 'Editar Equipe' : 'Nova Equipe'">Equipe</h1>
+
+        <form th:action="${equipe.id} != null ? @{/equipes/{id}/editar(id=${equipe.id})} : @{/equipes}"
+              th:object="${equipe}" method="post" class="form-card">
+            <label for="nome">Nome da equipe</label>
+            <input type="text" id="nome" th:field="*{nome}" placeholder="Ex: Elite dos Quatro" autofocus>
+            <p class="erro-campo" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
+
+            <div class="acoes-form">
+                <a href="/equipes" class="botao botao-secundario">Cancelar</a>
+                <button type="submit" class="botao botao-primario">Salvar</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

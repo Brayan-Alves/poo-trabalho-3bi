@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${equipe.nome} + ' · PokéStrategy'">Equipe</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/nav :: nav}"></header>
+
+    <main class="container">
+        <a href="/equipes" class="link-voltar">&larr; Minhas equipes</a>
+
+        <div class="cabecalho-pagina">
+            <h1 th:text="${equipe.nome}">Equipe</h1>
+            <span class="contagem-grande" th:text="${equipe.pokemons.size()} + '/6 Pokémon'">0/6 Pokémon</span>
+        </div>
+
+        <p class="alerta alerta-sucesso" th:if="${sucesso}" th:text="${sucesso}"></p>
+        <p class="alerta alerta-erro" th:if="${erroBusca}" th:text="${erroBusca}"></p>
+
+        <section class="secao-membros">
+            <p class="vazio" th:if="${#lists.isEmpty(equipe.pokemons)}">Nenhum Pokémon nesta equipe ainda.</p>
+
+            <div class="grade-pokemons">
+                <div class="cartao-pokemon" th:each="p : ${equipe.pokemons}">
+                    <img th:if="${p.spriteUrl}" th:src="${p.spriteUrl}" th:alt="${p.nome}">
+                    <h3 th:text="${p.nomeExibicao}">Nome</h3>
+                    <div class="badges-tipo">
+                        <span class="badge-tipo" th:classappend="'tipo-' + ${p.tipoPrimario}" th:text="${p.tipoPrimario}">tipo</span>
+                        <span class="badge-tipo" th:if="${p.tipoSecundario}" th:classappend="'tipo-' + ${p.tipoSecundario}" th:text="${p.tipoSecundario}">tipo</span>
+                    </div>
+                    <div class="acoes-cartao">
+                        <a th:href="@{/pokemons/{id}/editar(id=${p.id})}" class="botao botao-secundario botao-pequeno">Apelido</a>
+                        <form th:action="@{/pokemons/{id}/excluir(id=${p.id})}" method="post"
+                              onsubmit="return confirm('Remover este Pokémon da equipe?');">
+                            <button type="submit" class="botao botao-perigo botao-pequeno">Remover</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="secao-ameacas" th:if="${ameacas != null and not #lists.isEmpty(ameacas)}">
+            <h2>Fraquezas da Equipe</h2>
+            <div class="grade-ameacas">
+                <div class="cartao-ameaca" th:each="a : ${ameacas}">
+                    <span class="badge-tipo badge-tipo-grande" th:classappend="'tipo-' + ${a.tipo}" th:text="${a.tipo}">tipo</span>
+                    <p th:text="'Atinge ' + ${a.pokemonAfetados} + '/' + ${equipe.pokemons.size()} + ' Pokémon'">Atinge X/Y Pokémon</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="secao-busca" th:if="${!equipe.completa}">
+            <h2>Adicionar Pokémon à equipe</h2>
+            <form th:action="@{/equipes/{id}(id=${equipe.id})}" method="get" class="form-busca">
+                <input type="text" name="busca" th:value="${termoBusca}" placeholder="Nome ou número (ex: pikachu, 25)" required>
+                <button type="submit" class="botao botao-primario">Pesquisar na PokeAPI</button>
+            </form>
+
+            <div th:if="${resultado}" class="resultado-pesquisa">
+                <div th:replace="~{fragments/resultado :: info(${resultado})}"></div>
+                <form th:action="@{/pokemons}" method="post" class="form-adicionar">
+                    <input type="hidden" name="equipeId" th:value="${equipe.id}">
+                    <input type="hidden" name="pokedexId" th:value="${resultado.pokedexId}">
+                    <button type="submit" class="botao botao-primario">Adicionar à equipe</button>
+                </form>
+            </div>
+        </section>
+
+        <p class="aviso" th:if="${equipe.completa}">Esta equipe já está completa (6 Pokémon).</p>
+    </main>
+</body>
+</html>
