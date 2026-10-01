@@ -1,5 +1,6 @@
 package br.edu.ifpr.pokestrategy.model;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +31,9 @@ public class PokemonEquipe {
 
     private String spriteUrl;
 
+    @Embedded
+    private EstatisticasBase estatisticas;
+
     @ManyToOne
     @JoinColumn(name = "equipe_id")
     @Setter
@@ -39,12 +43,13 @@ public class PokemonEquipe {
     }
 
     public PokemonEquipe(Integer pokedexId, String nome, String tipoPrimario, String tipoSecundario,
-            String spriteUrl) {
+            String spriteUrl, EstatisticasBase estatisticas) {
         this.pokedexId = pokedexId;
         this.nome = nome;
         this.tipoPrimario = tipoPrimario;
         this.tipoSecundario = tipoSecundario;
         this.spriteUrl = spriteUrl;
+        this.estatisticas = estatisticas;
     }
 
     public String getNomeExibicao() {

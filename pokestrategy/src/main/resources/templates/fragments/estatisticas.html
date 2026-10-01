@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="barras(estatisticas)" class="bloco-status" th:if="${estatisticas}">
+        <h4>Status Base</h4>
+        <div class="lista-status">
+            <div class="linha-status">
+                <span class="rotulo-status">HP</span>
+                <div class="barra-status"><div class="barra-status-preenchida" th:style="'width:' + ${estatisticas.hp / 255.0 * 100} + '%'"></div></div>
+                <span class="valor-status" th:text="${estatisticas.hp}">0</span>
+            </div>
+            <div class="linha-status">
+                <span class="rotulo-status">Ataque</span>
+                <div class="barra-status"><div class="barra-status-preenchida" th:style="'width:' + ${estatisticas.ataque / 255.0 * 100} + '%'"></div></div>
+                <span class="valor-status" th:text="${estatisticas.ataque}">0</span>
+            </div>
+            <div class="linha-status">
+                <span class="rotulo-status">Defesa</span>
+                <div class="barra-status"><div class="barra-status-preenchida" th:style="'width:' + ${estatisticas.defesa / 255.0 * 100} + '%'"></div></div>
+                <span class="valor-status" th:text="${estatisticas.defesa}">0</span>
+            </div>
+            <div class="linha-status">
+                <span class="rotulo-status">Atq. Esp.</span>
+                <div class="barra-status"><div class="barra-status-preenchida" th:style="'width:' + ${estatisticas.ataqueEspecial / 255.0 * 100} + '%'"></div></div>
+                <span class="valor-status" th:text="${estatisticas.ataqueEspecial}">0</span>
+            </div>
+            <div class="linha-status">
+                <span class="rotulo-status">Def. Esp.</span>
+                <div class="barra-status"><div class="barra-status-preenchida" th:style="'width:' + ${estatisticas.defesaEspecial / 255.0 * 100} + '%'"></div></div>
+                <span class="valor-status" th:text="${estatisticas.defesaEspecial}">0</span>
+            </div>
+            <div class="linha-status">
+                <span class="rotulo-status">Velocidade</span>
+                <div class="barra-status"><div class="barra-status-preenchida" th:style="'width:' + ${estatisticas.velocidade / 255.0 * 100} + '%'"></div></div>
+                <span class="valor-status" th:text="${estatisticas.velocidade}">0</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

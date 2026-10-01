@@ -456,6 +456,54 @@ a {
     color: #5e35b1;
 }
 
+.bloco-status {
+    margin-top: 14px;
+}
+
+.bloco-status h4 {
+    margin: 0 0 6px;
+    font-size: 0.9rem;
+    color: var(--cor-texto-suave);
+}
+
+.lista-status {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.linha-status {
+    display: grid;
+    grid-template-columns: 70px 1fr 32px;
+    align-items: center;
+    gap: 8px;
+}
+
+.rotulo-status {
+    font-size: 0.75rem;
+    color: var(--cor-texto-suave);
+}
+
+.barra-status {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--cor-fundo);
+    border: 1px solid var(--cor-borda);
+    overflow: hidden;
+}
+
+.barra-status-preenchida {
+    height: 100%;
+    background: var(--cor-primaria);
+    border-radius: 999px;
+}
+
+.valor-status {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: right;
+}
+
 .form-adicionar {
     display: flex;
     gap: 10px;

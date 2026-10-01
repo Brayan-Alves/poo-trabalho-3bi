@@ -2,6 +2,7 @@ package br.edu.ifpr.pokestrategy.integracao;
 
 import br.edu.ifpr.pokestrategy.integracao.pokeapi.PokemonResposta;
 import br.edu.ifpr.pokestrategy.integracao.pokeapi.TipoResposta;
+import br.edu.ifpr.pokestrategy.model.EstatisticasBase;
 import br.edu.ifpr.pokestrategy.model.PokemonEquipe;
 
 import org.springframework.stereotype.Component;
@@ -77,9 +78,25 @@ public class PokeApiClient {
                 .toList();
 
         String sprite = resposta.sprites() != null ? resposta.sprites().frontDefault() : null;
+        EstatisticasBase estatisticas = extrairEstatisticas(resposta.stats());
 
         return Optional.of(new PokemonPesquisado(
-                resposta.id(), resposta.name(), sprite, tipos, fraquezas, resistencias, imunidades));
+                resposta.id(), resposta.name(), sprite, tipos, fraquezas, resistencias, imunidades, estatisticas));
+    }
+
+    /** Transforma a lista solta de stats da PokeAPI (hp, attack, ...) no objeto de estatísticas base. */
+    private EstatisticasBase extrairEstatisticas(List<PokemonResposta.StatSlot> stats) {
+        Map<String, Integer> porNome = new LinkedHashMap<>();
+        if (stats != null) {
+            stats.forEach(slot -> porNome.put(slot.stat().name(), slot.baseStat()));
+        }
+        return new EstatisticasBase(
+                porNome.getOrDefault("hp", 0),
+                porNome.getOrDefault("attack", 0),
+                porNome.getOrDefault("defense", 0),
+                porNome.getOrDefault("special-attack", 0),
+                porNome.getOrDefault("special-defense", 0),
+                porNome.getOrDefault("speed", 0));
     }
 
     /**

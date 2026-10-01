@@ -31,6 +31,7 @@
                         <span class="badge-tipo" th:classappend="'tipo-' + ${p.tipoPrimario}" th:text="${p.tipoPrimario}">tipo</span>
                         <span class="badge-tipo" th:if="${p.tipoSecundario}" th:classappend="'tipo-' + ${p.tipoSecundario}" th:text="${p.tipoSecundario}">tipo</span>
                     </div>
+                    <div th:replace="~{fragments/estatisticas :: barras(${p.estatisticas})}"></div>
                     <div class="acoes-cartao">
                         <a th:href="@{/pokemons/{id}/editar(id=${p.id})}" class="botao botao-secundario botao-pequeno">Apelido</a>
                         <form th:action="@{/pokemons/{id}/excluir(id=${p.id})}" method="post"

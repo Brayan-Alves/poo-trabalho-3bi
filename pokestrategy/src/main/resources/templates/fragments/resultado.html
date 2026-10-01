@@ -34,6 +34,8 @@
                     <span class="chip chip-imunidade" th:each="i : ${resultado.imunidades}" th:text="${i}">tipo</span>
                 </div>
             </div>
+
+            <div th:replace="~{fragments/estatisticas :: barras(${resultado.estatisticas})}"></div>
         </div>
     </div>
 </body>

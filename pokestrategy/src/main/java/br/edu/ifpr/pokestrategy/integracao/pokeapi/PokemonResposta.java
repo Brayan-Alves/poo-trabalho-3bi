@@ -14,6 +14,7 @@ public record PokemonResposta(
         int id,
         String name,
         List<TipoSlot> types,
+        List<StatSlot> stats,
         Sprites sprites) {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -22,6 +23,14 @@ public record PokemonResposta(
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record TipoInfo(String name, String url) {
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record StatSlot(@JsonProperty("base_stat") int baseStat, StatInfo stat) {
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record StatInfo(String name) {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

@@ -1,5 +1,7 @@
 package br.edu.ifpr.pokestrategy.integracao;
 
+import br.edu.ifpr.pokestrategy.model.EstatisticasBase;
+
 import java.util.List;
 
 /**
@@ -14,5 +16,6 @@ public record PokemonPesquisado(
         List<String> tipos,
         List<TipoMultiplicador> fraquezas,
         List<TipoMultiplicador> resistencias,
-        List<String> imunidades) {
+        List<String> imunidades,
+        EstatisticasBase estatisticas) {
 }

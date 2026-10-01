@@ -65,7 +65,8 @@ public class PokemonController {
                 dados.nome(),
                 dados.tipos().get(0),
                 dados.tipos().size() > 1 ? dados.tipos().get(1) : null,
-                dados.spriteUrl());
+                dados.spriteUrl(),
+                dados.estatisticas());
 
         equipe.adicionarPokemon(pokemon);
         pokemonEquipeRepository.save(pokemon);
