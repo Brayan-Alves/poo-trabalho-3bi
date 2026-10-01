@@ -52,6 +52,16 @@
             </div>
         </section>
 
+        <section class="secao-ameacas" th:if="${pontosFortes != null and not #lists.isEmpty(pontosFortes)}">
+            <h2>Pontos Fortes da Equipe</h2>
+            <div class="grade-ameacas">
+                <div class="cartao-ameaca" th:each="f : ${pontosFortes}">
+                    <span class="badge-tipo badge-tipo-grande" th:classappend="'tipo-' + ${f.tipo}" th:text="${f.tipo}">tipo</span>
+                    <p th:text="'Resiste em ' + ${f.pokemonAfetados} + '/' + ${equipe.pokemons.size()} + ' Pokémon'">Resiste em X/Y Pokémon</p>
+                </div>
+            </div>
+        </section>
+
         <section class="secao-busca" th:if="${!equipe.completa}">
             <h2>Adicionar Pokémon à equipe</h2>
             <form th:action="@{/equipes/{id}(id=${equipe.id})}" method="get" class="form-busca">

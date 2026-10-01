@@ -88,6 +88,7 @@ public class EquipeController {
 
         if (!equipe.getPokemons().isEmpty()) {
             model.addAttribute("ameacas", pokeApiClient.calcularAmeacasEquipe(equipe.getPokemons()));
+            model.addAttribute("pontosFortes", pokeApiClient.calcularPontosFortesEquipe(equipe.getPokemons()));
         }
 
         if (busca != null && !busca.isBlank()) {

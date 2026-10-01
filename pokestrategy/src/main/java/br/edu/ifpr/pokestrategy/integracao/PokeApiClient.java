@@ -8,12 +8,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.DoublePredicate;
 
 /**
  * Consome a PokeAPI (https://pokeapi.co/) para buscar um Pokémon e transformar
@@ -87,31 +89,45 @@ public class PokeApiClient {
      * mesmo tempo com dano ampliado.
      */
     public List<AmeacaTipo> calcularAmeacasEquipe(List<PokemonEquipe> pokemons) {
-        Map<String, Double> multiplicadorTotalPorTipo = new LinkedHashMap<>();
-        Map<String, Integer> afetadosPorTipo = new LinkedHashMap<>();
-        TODOS_OS_TIPOS.forEach(tipo -> {
-            multiplicadorTotalPorTipo.put(tipo, 0.0);
-            afetadosPorTipo.put(tipo, 0);
-        });
+        return resumirPorTipo(pokemons, multiplicador -> multiplicador > 1.0,
+                Comparator.comparingInt(AmeacaTipo::pokemonAfetados).reversed()
+                        .thenComparing(Comparator.comparingDouble(AmeacaTipo::multiplicadorTotal).reversed()));
+    }
+
+    /**
+     * Analisa a equipe inteira e aponta contra quais tipos de ataque ela
+     * melhor se sai — os tipos que mais membros resistem ou são imunes,
+     * ou seja, onde a equipe recebe dano reduzido.
+     */
+    public List<AmeacaTipo> calcularPontosFortesEquipe(List<PokemonEquipe> pokemons) {
+        return resumirPorTipo(pokemons, multiplicador -> multiplicador < 1.0,
+                Comparator.comparingInt(AmeacaTipo::pokemonAfetados).reversed()
+                        .thenComparing(Comparator.comparingDouble(AmeacaTipo::multiplicadorTotal)));
+    }
+
+    private List<AmeacaTipo> resumirPorTipo(List<PokemonEquipe> pokemons, DoublePredicate contaComoAfetado,
+            Comparator<AmeacaTipo> ordenacao) {
+        Map<String, List<Double>> multiplicadoresPorTipo = new LinkedHashMap<>();
+        TODOS_OS_TIPOS.forEach(tipo -> multiplicadoresPorTipo.put(tipo, new ArrayList<>()));
 
         for (PokemonEquipe pokemon : pokemons) {
             List<String> tipos = pokemon.getTipoSecundario() != null
                     ? List.of(pokemon.getTipoPrimario(), pokemon.getTipoSecundario())
                     : List.of(pokemon.getTipoPrimario());
 
-            calcularMultiplicadores(tipos).forEach((tipo, multiplicador) -> {
-                multiplicadorTotalPorTipo.merge(tipo, multiplicador, Double::sum);
-                if (multiplicador > 1.0) {
-                    afetadosPorTipo.merge(tipo, 1, Integer::sum);
-                }
-            });
+            calcularMultiplicadores(tipos)
+                    .forEach((tipo, multiplicador) -> multiplicadoresPorTipo.get(tipo).add(multiplicador));
         }
 
         return TODOS_OS_TIPOS.stream()
-                .map(tipo -> new AmeacaTipo(tipo, afetadosPorTipo.get(tipo), multiplicadorTotalPorTipo.get(tipo)))
-                .filter(ameaca -> ameaca.pokemonAfetados() > 0)
-                .sorted(Comparator.comparingInt(AmeacaTipo::pokemonAfetados).reversed()
-                        .thenComparing(Comparator.comparingDouble(AmeacaTipo::multiplicadorTotal).reversed()))
+                .map(tipo -> {
+                    List<Double> multiplicadores = multiplicadoresPorTipo.get(tipo);
+                    int afetados = (int) multiplicadores.stream().filter(contaComoAfetado::test).count();
+                    double total = multiplicadores.stream().mapToDouble(Double::doubleValue).sum();
+                    return new AmeacaTipo(tipo, afetados, total);
+                })
+                .filter(resumo -> resumo.pokemonAfetados() > 0)
+                .sorted(ordenacao)
                 .limit(6)
                 .toList();
     }
