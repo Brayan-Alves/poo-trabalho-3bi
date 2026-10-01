@@ -2,7 +2,9 @@ package br.edu.ifpr.pokestrategy.controller;
 
 import br.edu.ifpr.pokestrategy.integracao.PokeApiClient;
 import br.edu.ifpr.pokestrategy.model.Equipe;
+import br.edu.ifpr.pokestrategy.model.PokemonEquipe;
 import br.edu.ifpr.pokestrategy.repository.EquipeRepository;
+import br.edu.ifpr.pokestrategy.repository.PokemonEquipeRepository;
 
 import jakarta.validation.Valid;
 
@@ -19,16 +21,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 /** CRUD de equipes (cadastrar, listar, editar, excluir) e a página de detalhe onde os Pokémon são adicionados. */
 @Controller
 @RequestMapping("/equipes")
 public class EquipeController {
 
     private final EquipeRepository equipeRepository;
+    private final PokemonEquipeRepository pokemonEquipeRepository;
     private final PokeApiClient pokeApiClient;
 
-    public EquipeController(EquipeRepository equipeRepository, PokeApiClient pokeApiClient) {
+    public EquipeController(EquipeRepository equipeRepository, PokemonEquipeRepository pokemonEquipeRepository,
+            PokeApiClient pokeApiClient) {
         this.equipeRepository = equipeRepository;
+        this.pokemonEquipeRepository = pokemonEquipeRepository;
         this.pokeApiClient = pokeApiClient;
     }
 
@@ -86,6 +93,8 @@ public class EquipeController {
         Equipe equipe = buscarOuFalhar(id);
         model.addAttribute("equipe", equipe);
 
+        preencherStatusFaltantes(equipe.getPokemons());
+
         if (!equipe.getPokemons().isEmpty()) {
             model.addAttribute("ameacas", pokeApiClient.calcularAmeacasEquipe(equipe.getPokemons()));
             model.addAttribute("pontosFortes", pokeApiClient.calcularPontosFortesEquipe(equipe.getPokemons()));
@@ -98,6 +107,18 @@ public class EquipeController {
                     () -> model.addAttribute("erroBusca", "Nenhum Pokémon encontrado para \"" + busca + "\"."));
         }
         return "equipes/detalhe";
+    }
+
+    /** Busca na PokeAPI o status base de Pokémon adicionados antes dessa funcionalidade existir. */
+    private void preencherStatusFaltantes(List<PokemonEquipe> pokemons) {
+        for (PokemonEquipe pokemon : pokemons) {
+            if (pokemon.getEstatisticas() == null) {
+                pokeApiClient.buscarPokemon(String.valueOf(pokemon.getPokedexId())).ifPresent(dados -> {
+                    pokemon.setEstatisticas(dados.estatisticas());
+                    pokemonEquipeRepository.save(pokemon);
+                });
+            }
+        }
     }
 
     private Equipe buscarOuFalhar(Long id) {

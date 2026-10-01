@@ -32,6 +32,7 @@ public class PokemonEquipe {
     private String spriteUrl;
 
     @Embedded
+    @Setter
     private EstatisticasBase estatisticas;
 
     @ManyToOne
